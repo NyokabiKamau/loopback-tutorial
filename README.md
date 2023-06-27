@@ -29,10 +29,28 @@ npm ci
 ```sh
 npm start
 ```
-
 You can also run `node .` to skip the build step.
 
 Open http://127.0.0.1:3000 in your browser.
+
+# REST
+Here are some new requests you can try out:
+
+```sh
+POST /todo-lists with a body of { "title": "grocery list" }.
+```
+
+```sh
+POST /todo-lists/{id}/todos using the ID you got back from the previous POST request and this body: { "title": "get eggs", "isComplete": false}. Notice that response body you get back contains property todoListId with the ID from before.
+```
+
+```sh
+GET /todo-lists/{id}/todos with the ID from before, and see if you get the todo you created from before.
+```
+
+```sh
+GET /todo-lists/{id} with the ID from before, with the following filter {"include": [{"relation": "todos"}]}, and see if you get a todos property with the todo created before. You can also use the following url to test this endpoint (remember to replace {id} with the ID from before): http://localhost:3000/todo-lists/{id}?filter[include][][relation]=todos
+```
 
 ## Rebuild the project
 
