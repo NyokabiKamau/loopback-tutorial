@@ -17,7 +17,7 @@ import {
   requestBody,
   response,
 } from '@loopback/rest';
-import {TodoListImage} from '../models';
+import {TodoListImage, TodoList} from '../models';
 import {TodoListImageRepository} from '../repositories';
 
 export class TodoListImageController {
@@ -146,5 +146,22 @@ export class TodoListImageController {
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.todoListImageRepository.deleteById(id);
+  }
+  @get('/todo-list-images/{id}/todo-list', {
+    responses: {
+      '200': {
+        description: 'TodoList belonging to TodoListImage',
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(TodoList),
+          },
+        },
+      },
+    },
+  })
+  async getTodoList(
+    @param.path.number('id') id: typeof TodoListImage.prototype.id,
+  ): Promise<TodoList> {
+    return this.todoListImageRepository.todoList(id);
   }
 }
